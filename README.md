@@ -6,13 +6,21 @@ Press a hotkey to enter drawing mode, sketch annotations over page content, and 
 
 ## Install
 
-```bash
-# From another project, install via relative path:
-npm install @twanlass/scribble
+### With a coding agent (Claude Code, Cursor, etc.)
 
-# Or link globally:
-cd scribble && npm link
-cd ../your-project && npm link @twanlass/scribble
+Paste this prompt into your AI coding agent:
+
+```
+Install the @twanlass/scribble package (npm install @twanlass/scribble). Then add it to
+my project so freehand annotations are available on every page. Import createScribble
+from '@twanlass/scribble' and call createScribble() on page load. Press "P" to toggle
+drawing mode. See the docs at https://github.com/twanlass/scribble for options and API.
+```
+
+### Manual install
+
+```bash
+npm install @twanlass/scribble
 ```
 
 ## Quick Start
