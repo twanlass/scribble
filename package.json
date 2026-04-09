@@ -1,0 +1,26 @@
+{
+  "name": "@twanlass/scribble",
+  "version": "0.2.0",
+  "description": "Drop-in freehand annotation overlay for any web page",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./freehand": "./freehand.js"
+  },
+  "files": [
+    "index.js",
+    "scribble.js",
+    "freehand.js"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "scribble",
+    "freehand",
+    "drawing",
+    "annotation",
+    "svg",
+    "overlay"
+  ]
+}

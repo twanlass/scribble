@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scribble Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  .banner {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 12px 24px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .banner kbd {
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: monospace;
+    font-size: 13px;
+  }
+  .banner .status {
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .banner .status.off { background: #333; color: #888; }
+  .banner .status.on { background: #2d6a4f; color: #b7e4c7; }
+
+  .content { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
+  .section { margin-bottom: 60px; }
+  h1 { font-size: 32px; margin-bottom: 8px; }
+  h2 { font-size: 22px; margin-bottom: 12px; color: #333; }
+  p { font-size: 16px; line-height: 1.7; color: #444; margin-bottom: 16px; }
+
+  .card {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .color-blocks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .color-block { height: 80px; border-radius: 8px; }
+
+  input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 300px;
+    margin: 8px 0;
+  }
+
+  button.test-btn {
+    padding: 8px 16px;
+    background: #4361ee;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 4px;
+  }
+  button.test-btn:hover { background: #3a56d4; }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <span>Press <kbd>P</kbd> to toggle drawing</span>
+  <span><kbd>C</kbd> colors</span>
+  <span><kbd>S</kbd> size</span>
+  <span><kbd>Cmd+Z</kbd> undo</span>
+  <div class="status off" id="status">OFF</div>
+</div>
+
+<div class="content">
+  <div class="section">
+    <h1>Scribble Demo</h1>
+    <p>Draw annotations, scroll around, toggle off. Strokes stay anchored to content.</p>
+  </div>
+
+  <div class="section">
+    <h2>Color Blocks</h2>
+    <p>Draw circles around blocks, then scroll away and back.</p>
+    <div class="color-blocks">
+      <div class="color-block" style="background: #e63946;"></div>
+      <div class="color-block" style="background: #457b9d;"></div>
+      <div class="color-block" style="background: #2a9d8f;"></div>
+      <div class="color-block" style="background: #e9c46a;"></div>
+      <div class="color-block" style="background: #264653;"></div>
+      <div class="color-block" style="background: #f4a261;"></div>
+      <div class="color-block" style="background: #a8dadc;"></div>
+      <div class="color-block" style="background: #6a4c93;"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Interactive Elements</h2>
+    <p>When drawing is off, these should work normally. Typing "p" in the input should type the letter.</p>
+    <div class="card">
+      <input type="text" placeholder="Type here (including p, c, s)...">
+      <br><br>
+      <button class="test-btn" onclick="alert('Button works!')">Click Me</button>
+      <button class="test-btn" onclick="this.textContent = 'Clicked!'">Another Button</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Long Content</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl sit amet nisl.</p>
+    <div class="card">
+      <p>Draw an arrow pointing to this card, then scroll down and back up.</p>
+    </div>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+  </div>
+
+  <div class="section">
+    <h2>More Content</h2>
+    <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+    <div class="card">
+      <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
+    </div>
+    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+  </div>
+
+  <div class="section">
+    <h2>Bottom</h2>
+    <p>Scroll back up — your drawings should still be where you left them (unless clearOnDisable is on).</p>
+    <p style="margin-top: 80px; text-align: center; color: #999;">— End —</p>
+  </div>
+</div>
+
+<script type="module">
+  import { createScribble } from '../index.js';
+
+  const scribble = createScribble();
+
+  const statusEl = document.getElementById('status');
+  document.addEventListener('keydown', () => setTimeout(() => {
+    statusEl.textContent = scribble.isEnabled() ? 'ON' : 'OFF';
+    statusEl.className = 'status ' + (scribble.isEnabled() ? 'on' : 'off');
+  }, 0));
+</script>
+</body>
+</html>
