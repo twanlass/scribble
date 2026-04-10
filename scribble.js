@@ -25,6 +25,7 @@ const DEFAULT_OPTIONS = {
   start: { taper: 15 },
   end: { taper: 7 },
   clearOnDisable: true,
+  passthrough: [],
 };
 
 /**
@@ -40,6 +41,7 @@ const DEFAULT_OPTIONS = {
  * @param {boolean} [userOptions.simulatePressure=true]  Simulate pressure for mouse.
  * @param {Object}  [userOptions.start]              Start taper config.
  * @param {Object}  [userOptions.end]                End taper config.
+ * @param {string[]} [userOptions.passthrough=[]]    CSS selectors for elements that remain clickable in pen mode.
  * @returns {PenOverlay}
  */
 export function createScribble(userOptions = {}) {
@@ -50,7 +52,7 @@ export function createScribble(userOptions = {}) {
     start: { ...DEFAULT_OPTIONS.start, ...userOptions.start },
     end: { ...DEFAULT_OPTIONS.end, ...userOptions.end },
   };
-  const { hotkey, color: initialColor, clearOnDisable, ...freehandDefaults } = opts;
+  const { hotkey, color: initialColor, clearOnDisable, passthrough, ...freehandDefaults } = opts;
 
   // --- Mutable drawing state ---
   let activeColor = initialColor;
@@ -122,6 +124,18 @@ export function createScribble(userOptions = {}) {
   // --- Pointer events ---
   function onPointerDown(e) {
     if (state !== 'idle' || e.button !== 0) return;
+
+    // Let clicks pass through to matching elements
+    if (passthrough.length > 0) {
+      interactionLayer.style.pointerEvents = 'none';
+      const hit = document.elementFromPoint(e.clientX, e.clientY);
+      interactionLayer.style.pointerEvents = 'all';
+      if (hit && passthrough.some(sel => hit.closest(sel))) {
+        hit.click();
+        return;
+      }
+    }
+
     e.preventDefault();
     hideColorPicker();
     hideSizePreview();

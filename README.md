@@ -87,6 +87,9 @@ const scribble = createScribble({
 
   // Taper at the end of each stroke, in pixels.
   end: { taper: 7 },
+
+  // CSS selectors for elements that remain clickable in pen mode.
+  passthrough: ['#pause-btn', '.toolbar button'],
 })
 ```
 
@@ -105,6 +108,18 @@ scribble.undo()      // Remove the last stroke
 scribble.clear()     // Remove all strokes
 scribble.destroy()   // Remove all DOM elements and unbind all event listeners
 ```
+
+## Passthrough (Clickable Elements in Pen Mode)
+
+By default, pen mode captures all pointer events. Use the `passthrough` option to specify CSS selectors for elements that should remain clickable while drawing is active — useful for UI controls like play/pause buttons or toolbars that need to stay interactive.
+
+```js
+const scribble = createScribble({
+  passthrough: ['#pause-btn', '.toolbar button'],
+})
+```
+
+Matching uses `.closest()`, so clicks on child elements (like an icon inside a button) will match the parent selector.
 
 ## How It Works
 
