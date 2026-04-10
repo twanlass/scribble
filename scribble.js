@@ -386,7 +386,11 @@ export function createScribble(userOptions = {}) {
   }
 
   // --- Hotkey ---
-  function isTyping(el) {
+  function isTyping(e) {
+    // composedPath pierces shadow DOM, where e.target is retargeted to the host
+    const path = typeof e.composedPath === 'function' ? e.composedPath() : [];
+    const el = path[0] || e.target;
+    if (!el || !el.tagName) return false;
     const tag = el.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
     if (el.isContentEditable) return true;
@@ -394,7 +398,7 @@ export function createScribble(userOptions = {}) {
   }
 
   function onKeyDown(e) {
-    if (isTyping(e.target)) return;
+    if (isTyping(e)) return;
 
     // Toggle hotkey (no modifiers)
     if (hotkey && e.key === hotkey && !e.metaKey && !e.ctrlKey && !e.altKey) {
